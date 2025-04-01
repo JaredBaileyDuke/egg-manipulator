@@ -10,8 +10,8 @@ def main():
         return
 
     # Load the predefined dictionary of ArUco markers (change if necessary)
-    aruco_dict = cv2.aruco.Dictionary_get(cv2.aruco.DICT_6X6_250)
-    parameters = cv2.aruco.DetectorParameters_create()
+    aruco_dict = cv2.aruco.getPredefinedDictionary(cv2.aruco.DICT_4X4_50)
+    parameters = cv2.aruco.DetectorParameters()
 
     # Define a known marker length in meters (adjust to your marker's actual size)
     marker_length = 0.05
@@ -23,6 +23,8 @@ def main():
         if not ret:
             print("Error: Failed to grab frame.")
             break
+        
+        # cv2.imshow('Original', frame)
 
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         # Detect markers in the image
@@ -78,7 +80,7 @@ def main():
                 # Pose estimation (translation and rotation) provided a known marker size
                 rvec, tvec, _ = cv2.aruco.estimatePoseSingleMarkers(corner, marker_length, camera_matrix, dist_coeffs)
                 # Draw coordinate axis for the marker
-                cv2.aruco.drawAxis(frame, camera_matrix, dist_coeffs, rvec, tvec, marker_length * 0.5)
+                cv2.drawFrameAxes(frame, camera_matrix, dist_coeffs, rvec, tvec, marker_length * 0.5)
 
                 # Extract inner pattern using perspective transform
                 pts_dst = np.array([[0, 0], [100, 0], [100, 100], [0, 100]], dtype=np.float32)
@@ -99,7 +101,7 @@ def main():
 
                 # Print detailed info to the console
                 print(f"\nMarker {marker_id}:")
-                print(f"  Corners: {np.int0(pts)}")
+                print(f"  Corners: {np.int8(pts)}")
                 print(f"  Center: ({center_x}, {center_y})")
                 print(f"  Orientation: {angle:.1f}°")
                 print(f"  Pixel Size (avg side length): {pixel_size:.1f}")
