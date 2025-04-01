@@ -3,6 +3,12 @@ import numpy as np
 import math
 
 def main():
+
+    for i in range(5):
+        cap = cv2.VideoCapture(i)
+        if cap.read()[0]:
+            print(f"Camera index {i} is available.")
+            cap.release()
     # Open the default USB webcam (0 can be replaced with your device index if needed)
     cap = cv2.VideoCapture(0)
     if not cap.isOpened():
