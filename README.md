@@ -26,7 +26,6 @@ egg-manipulator/
 │   └── cv/
 │       ├── camera_experiment.py
 │       ├── cv_experiment.py
-├── main.py
 ```
 
 ### Key Components
